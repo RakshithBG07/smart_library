@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Smart Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 flex items-center justify-center min-h-screen py-10">
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row-reverse">
+        <!-- Illustration Side -->
+        <div class="hidden md:flex flex-col items-center justify-center bg-indigo-600 w-1/2 p-10 text-white">
+            <i class="fa-solid fa-graduation-cap text-6xl mb-6"></i>
+            <h2 class="text-3xl font-bold mb-4">Join Us Today</h2>
+            <p class="text-center text-indigo-100">Create an account to reserve books, track reading history, and enjoy seamless library services.</p>
+        </div>
+        
+        <!-- Form Side -->
+        <div class="w-full md:w-1/2 p-8 md:p-12">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Create an Account</h2>
+                <p class="text-slate-500 mt-2">Enter your details to get started.</p>
+            </div>
+
+            <form id="signupForm" class="space-y-5">
+                <div id="errorMsg" class="hidden bg-red-100 text-red-700 p-3 rounded-lg text-sm"></div>
+                <div id="successMsg" class="hidden bg-green-100 text-green-700 p-3 rounded-lg text-sm"></div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa-regular fa-user text-slate-400"></i>
+                        </div>
+                        <input type="text" id="name" required class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 outline-none transition" placeholder="John Doe">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa-regular fa-envelope text-slate-400"></i>
+                        </div>
+                        <input type="email" id="email" required class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 outline-none transition" placeholder="john@example.com">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-lock text-slate-400"></i>
+                        </div>
+                        <input type="password" id="password" required minlength="6" class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 outline-none transition" placeholder="••••••••">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Role</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-user-tag text-slate-400"></i>
+                        </div>
+                        <select id="role_id" class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 outline-none transition bg-white appearance-none">
+                            <!-- In a real app we'd fetch this from the DB, but hardcoding for now based on our SQL script -->
+                            <option value="3">Member</option>
+                            <option value="2">Librarian</option>
+                            <option value="1">Admin</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-slate-400 text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200 transition shadow-lg shadow-indigo-600/30">
+                    Create Account
+                </button>
+            </form>
+
+            <p class="text-center text-sm text-slate-600 mt-8">
+                Already have an account? <a href="login.html" class="font-medium text-indigo-600 hover:text-indigo-500">Sign in</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const role_id = document.getElementById('role_id').value;
+            
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+
+            try {
+                const response = await fetch('../api/register.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password, role_id })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    successMsg.textContent = "Registration successful! Redirecting to login...";
+                    successMsg.classList.remove('hidden');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    errorMsg.textContent = result.message;
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorMsg.textContent = "An error occurred. Please try again.";
+                errorMsg.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
