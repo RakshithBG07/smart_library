@@ -1,88 +1,116 @@
-# 📚 Smart Library Management System
+# Smart Library Management System
 
-A multi-role, DBMS-driven Library Management System built with **HTML5, Tailwind CSS, JavaScript, and MySQL** — supporting Admin, Librarian, and Student workflows with authentication, real-time book tracking, and automated fine calculation.
-
----
-
-## 🚀 Features
-
-- 🔐 **Role-Based Authentication** — Separate login portals for Admin, Librarian, and Student with access control
-- 📖 **Book Issue & Return Tracking** — End-to-end management of book issuance, returns, and availability status
-- 🪑 **Seat & Book Reservation** — Students can reserve books and seats in advance with real-time availability
-- 📍 **Location Management** — Track physical shelf locations of books within the library
-- 💰 **Automated Fine Calculation** — System automatically calculates overdue fines based on return dates
-- 🔍 **Search & Filter Books** — Search by title, author, category, or availability with dynamic filtering
-- 👤 **Author & Category Management** — Admin can manage book authors, genres, and categories
-- 📋 **Reservation Management** — Full reservation lifecycle from request to approval to cancellation
+A production-grade, multi-role Library Management System built as a **Single Page Application (SPA)** using **PHP, MySQL, and Vanilla JavaScript** — featuring RESTful API architecture, database triggers, real-time search, and automated fine management.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Frontend | HTML5, Tailwind CSS, JavaScript |
-| Backend | PHP (via XAMPP) |
-| Database | MySQL |
-| Server | Apache (XAMPP / WAMP / LAMP) |
+| Frontend | HTML5, CSS3, Vanilla JavaScript (ES6+), SPA via History API |
+| Backend | PHP (RESTful API endpoints) |
+| Database | MySQL — triggers, relational schema, role management |
+| Server | Apache via XAMPP (MySQL on port 3307) |
 | Tools | VS Code, phpMyAdmin |
 
 ---
 
-## 📁 Project Structure
+## Features
+
+- **Role-Based Authentication** — Secure login and signup with session management and access control per user role
+- **SPA Architecture** — Smooth, reload-free navigation using the Browser History API for a seamless dashboard experience
+- **Google-like Real-Time Search** — Instant search suggestions across books, authors, and categories as you type
+- **Full CRUD Operations** — Complete Create, Read, Update, Delete management for Books, Users, Authors, Publishers, and Categories
+- **RESTful API Layer** — Clean, modular PHP API endpoints handling all client-server communication
+- **Smart Stock Management** — Automated inventory tracking via MySQL database triggers on borrow and return events
+- **Borrow & Return System** — End-to-end book issuance and return workflows with availability status updates
+- **Automated Fine Calculation** — System automatically computes overdue fines on book return based on due dates
+- **Fine Payment Tracking** — Fine payment lifecycle management from generation to settlement
+- **Location Management** — Shelf and floor-level physical location tracking for every book
+- **Publisher Management** — Full publisher catalog linked to book records
+- **Data Seeding** — Real-world seed scripts for realistic development and testing
+
+---
+
+## Project Structure
 
 ```
-smart-library-management-system/
+smart_library/
 │
-├── api/              # Backend API handlers and server-side logic
-├── assets/           # Images, icons, and static resources
-├── config/           # Database connection and configuration files
-├── database/         # SQL schema and seed data files
-├── pages/            # Frontend HTML pages for all roles
-├── screenshots/      # Output screenshots
+├── api/                        # RESTful PHP API endpoints
+│   ├── auth.php                # Session validation & authentication checks
+│   ├── authors.php             # Author management (CRUD)
+│   ├── books.php               # Book catalog, search & inventory (CRUD)
+│   ├── borrow.php              # Borrow/return logic with fine triggers
+│   ├── categories.php          # Category management
+│   ├── fine.php                # Fine payment processing
+│   ├── locations.php           # Shelf & floor location management
+│   ├── login.php               # User authentication & session creation
+│   ├── publishers.php          # Publisher management
+│   ├── users.php               # User management (CRUD)
+│   └── ...                     # Additional metadata API handlers
+│
+├── assets/
+│   ├── css/
+│   │   └── style.css           # Global styling & animations
+│   └── js/
+│       └── app.js              # Core SPA frontend controller (History API)
+│
+├── config/
+│   └── db.php                  # MySQL database connection (port 3307)
+│
+├── database/
+│   ├── database.sql            # Core schema — tables, triggers, roles
+│   └── seeders/                # Real-world data seeding scripts
+│
+├── pages/
+│   ├── dashboard.html          # Main admin SPA dashboard
+│   ├── login.html              # Secure login portal
+│   └── signup.html             # User registration page
+│
 └── README.md
 ```
 
 ---
 
-## ⚙️ How to Run Locally
+## Getting Started
 
 ### Prerequisites
-- [XAMPP](https://www.apachefriends.org/) (or WAMP / LAMP) installed on your machine
-- A modern web browser (Chrome / Firefox)
+- [XAMPP](https://www.apachefriends.org/) installed with Apache and MySQL
+- MySQL configured to run on **port 3307**
+- A modern browser (Chrome / Firefox)
 
-### Steps
+### Setup Instructions
 
 1. **Clone the repository**
    ```bash
    git clone https://github.com/rakshithbg/smart-library-management-system.git
    ```
 
-2. **Move project to server root**
-   - Copy the project folder into `C:/xampp/htdocs/` (Windows) or `/opt/lampp/htdocs/` (Linux)
+2. **Move to XAMPP root**
+   ```
+   Copy the smart_library/ folder into: C:\xampp\htdocs\smart_library
+   ```
 
-3. **Start XAMPP**
-   - Open XAMPP Control Panel
-   - Start **Apache** and **MySQL**
+3. **Import the database**
+   - Start **Apache** and **MySQL** from the XAMPP Control Panel
+   - Open `http://localhost/phpmyadmin`
+   - Create a new database named `smart_library`
+   - Click **Import** → select `database/database.sql` → click **Go**
 
-4. **Set up the database**
-   - Open your browser and go to `http://localhost/phpmyadmin`
-   - Create a new database named `library_db`
-   - Click **Import** and select the SQL file from the `database/` folder
-   - Click **Go** to import
+4. **Configure the connection**
+   - Open `config/db.php`
+   - Confirm host is `localhost`, port is `3307`, and credentials match your XAMPP setup
 
-5. **Configure database connection**
-   - Open `config/` folder and update your database credentials if needed (default: host `localhost`, user `root`, password ` `)
-
-6. **Run the project**
-   - Open your browser and go to:
-     ```
-     http://localhost/smart-library-management-system/pages/
-     ```
+5. **Launch the app**
+   ```
+   http://localhost/smart_library/pages/login.html
+   ```
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 <table>
   <tr>
@@ -91,45 +119,42 @@ smart-library-management-system/
   </tr>
   <tr>
     <td><img src="screenshots/3.png" width="400" alt="Book Management"/></td>
-    <td><img src="screenshots/4.png" width="400" alt="Issue & Return"/></td>
+    <td><img src="screenshots/4.png" width="400" alt="Real-Time Search"/></td>
   </tr>
   <tr>
-    <td><img src="screenshots/5.png" width="400" alt="Reservation"/></td>
+    <td><img src="screenshots/5.png" width="400" alt="Borrow & Return"/></td>
     <td><img src="screenshots/6.png" width="400" alt="Fine Calculation"/></td>
   </tr>
   <tr>
-    <td><img src="screenshots/7.png" width="400" alt="Search & Filter"/></td>
-    <td><img src="screenshots/8.png" width="400" alt="Student Dashboard"/></td>
+    <td><img src="screenshots/7.png" width="400" alt="User Management"/></td>
+    <td><img src="screenshots/8.png" width="400" alt="Author Management"/></td>
   </tr>
   <tr>
-    <td><img src="screenshots/9.png" width="400" alt="Librarian View"/></td>
-    <td><img src="screenshots/10.png" width="400" alt="Author Management"/></td>
+    <td><img src="screenshots/9.png" width="400" alt="Location Management"/></td>
+    <td><img src="screenshots/10.png" width="400" alt="Category Management"/></td>
   </tr>
 </table>
 
 ---
 
-## 🗃️ Database Schema Overview
+## Database Highlights
 
-- `users` — stores Admin, Librarian, and Student credentials with role flags
-- `books` — book catalog with title, author, category, location, and availability
-- `authors` — author details linked to books
-- `borrowings` — tracks issued books, due dates, and return status
-- `reservations` — manages seat and book reservation records
-- `fines` — stores calculated fine amounts per borrowing record
-- `locations` — physical shelf/section locations within the library
+- **Triggers** — Auto-update stock count on borrow and return events without manual intervention
+- **Relational Schema** — Normalized tables with foreign key constraints across books, users, borrowings, fines, authors, publishers, locations, and categories
+- **Role Management** — User roles defined and enforced at the database level
+- **Seeders** — Pre-populated realistic data for development and demo purposes
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Rakshith B G**
-- 📧 samithrakshit@gmail.com
-- 💼 [LinkedIn](https://www.linkedin.com/in/rakshith-b-g-a39a26404)
-- 🎓 B.E. Computer Science Engineering — Sapthagiri NPS University, Bengaluru
+- Email: samithrakshit@gmail.com
+- LinkedIn: [linkedin.com/in/rakshith-b-g-a39a26404](https://www.linkedin.com/in/rakshith-b-g-a39a26404)
+- B.E. Computer Science Engineering — Sapthagiri NPS University, Bengaluru
 
 ---
 
-## 📄 License
+## License
 
-This project is developed for academic purposes as part of B.E. Computer Science Engineering coursework.
+Developed for academic purposes as part of B.E. Computer Science Engineering coursework.
